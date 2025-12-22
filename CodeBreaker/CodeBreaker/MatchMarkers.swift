@@ -11,11 +11,19 @@ struct MatchMarkers: View {
     
     var body: some View {
         HStack {
-            ForEach(Array(stride(from:0, to: matches.count, by: 2)),id: \.self){index in VStack {
-                        matchMarker(peg:index)
-                        matchMarker(peg:index+1)
-                }
+            VStack{
+                matchMarker(peg: 0)
+                matchMarker(peg: 1)
             }
+            VStack {
+                matchMarker(peg: 2)
+                matchMarker(peg: 3)
+            }
+//            ForEach(Array(stride(from:0, to: matches.count, by: 2)),id: \.self){index in VStack {
+//                        matchMarker(peg:index)
+//                        matchMarker(peg:index+1)
+//                }
+//            }
         }
         
     }
@@ -23,7 +31,7 @@ struct MatchMarkers: View {
     
     func matchMarker(peg: Int) -> some View {
         let exactCount: Int = matches.count { $0 == .exact}
-        let foundCount: Int = matches.count { $0 == .nomatch}
+        let foundCount: Int = matches.count { $0 != .nomatch}
         return Circle()
             .fill(exactCount > peg ? Color.primary : Color.clear)
             .strokeBorder(foundCount > peg ? Color.primary : Color.clear, lineWidth: 2).aspectRatio(1, contentMode: .fit)
