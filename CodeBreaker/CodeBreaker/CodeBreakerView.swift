@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CodeBreakerView: View {
-    @State var game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red])
+    @State var game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red,.purple,.blue])
     var body: some View {
         VStack {
             view(for: game.masterCode)
@@ -35,7 +35,9 @@ struct CodeBreakerView: View {
     
     var restartButton: some View {
         Button("Restart") {
-                game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red])
+            withAnimation {
+                game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red,.purple,.blue])
+            }
         }
         .font(.system(size: 80))
         .minimumScaleFactor(0.1)
@@ -43,10 +45,11 @@ struct CodeBreakerView: View {
     
     func view(for code: Code) -> some View {
         HStack {
-            ForEach(code.pegs.indices, id: \.self) { index in RoundedRectangle(cornerRadius: 10)
+            ForEach(code.pegs.indices, id: \.self) { index in
+                Circle()
                     .overlay {
                         if code.pegs[index] == Code.missing {
-                            RoundedRectangle(cornerRadius: 10)
+                            Circle()
                                 .strokeBorder(Color.gray)
                         }
                     }
@@ -59,7 +62,7 @@ struct CodeBreakerView: View {
                         }
                     }
             }
-            MatchMarkers(matches: code.matches, pegsSize: code.pegs.count)
+            MatchMarkers(matches: code.matches)
                 .overlay {
                     if code.kind == .master {
                         restartButton
