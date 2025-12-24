@@ -8,7 +8,6 @@ import SwiftUI
 
 struct MatchMarkers: View {
     var matches: [Match]
-    var pegsSize: Int
     var body: some View {
         HStack {
            VStack{
@@ -18,6 +17,12 @@ struct MatchMarkers: View {
            VStack {
                matchMarker(peg: 2)
                matchMarker(peg: 3)
+           }
+           if matches.count > 4 {
+            VStack {
+                matchMarker(peg: 4)
+                matchMarker(peg: 5)
+            }
            }
         }
         
