@@ -18,11 +18,6 @@ struct CodeBreakerView: View {
                     index in view(for: game.attempts[index])
                 }
             }
-            Button("Guess") {
-                withAnimation {
-                    game.attemptGuess()
-                }
-            }
 //            pegs(colors: game.attempts[0].pegs)
         }
         .padding()
@@ -33,6 +28,14 @@ struct CodeBreakerView: View {
             withAnimation {
                 game.attemptGuess()
             }
+        }
+        .font(.system(size: 80))
+        .minimumScaleFactor(0.1)
+    }
+    
+    var restartButton: some View {
+        Button("Restart") {
+                game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red])
         }
         .font(.system(size: 80))
         .minimumScaleFactor(0.1)
@@ -56,7 +59,12 @@ struct CodeBreakerView: View {
                         }
                     }
             }
-            MatchMarkers(matches: code.matches)
+            MatchMarkers(matches: code.matches, pegsSize: code.pegs.count)
+                .overlay {
+                    if code.kind == .master {
+                        restartButton
+                    }
+                }
                 .overlay {
                     if code.kind == .guess {
                         guessButton

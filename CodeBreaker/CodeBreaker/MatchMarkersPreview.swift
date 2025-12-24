@@ -15,7 +15,7 @@ struct MatchMarkersPreview: View {
             ForEach(matches.indices, id: \.self) {
                 index in Circle()
             }
-            MatchMarkers(matches: self.matches)
+//            MatchMarkers(matches: self.matches)
         }
       
     }
