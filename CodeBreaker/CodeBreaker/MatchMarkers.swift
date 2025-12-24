@@ -8,22 +8,17 @@ import SwiftUI
 
 struct MatchMarkers: View {
     var matches: [Match]
-    
+    var pegsSize: Int
     var body: some View {
         HStack {
-            VStack{
-                matchMarker(peg: 0)
-                matchMarker(peg: 1)
-            }
-            VStack {
-                matchMarker(peg: 2)
-                matchMarker(peg: 3)
-            }
-//            ForEach(Array(stride(from:0, to: matches.count, by: 2)),id: \.self){index in VStack {
-//                        matchMarker(peg:index)
-//                        matchMarker(peg:index+1)
-//                }
-//            }
+           VStack{
+               matchMarker(peg: 0)
+               matchMarker(peg: 1)
+           }
+           VStack {
+               matchMarker(peg: 2)
+               matchMarker(peg: 3)
+           }
         }
         
     }
@@ -48,7 +43,7 @@ enum Match {
 }
 
 #Preview {
-    MatchMarkers(matches:[.exact, .inexact, .inexact, .nomatch, .nomatch])
+//    MatchMarkers(matches:[.exact, .inexact, .inexact, .nomatch, .nomatch])
 //    VStack() {
 //        MatchMarkersPreview(matches: [.exact, .inexact, .inexact, .nomatch, .nomatch])
 //        MatchMarkersPreview(matches: [.exact, .exact, .exact,.inexact])

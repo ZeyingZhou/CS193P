@@ -22,6 +22,12 @@ struct CodeBreaker {
     }
     
     mutating func attemptGuess() -> Void {
+        if guess.pegs == Array(repeating: Code.missing, count:4) {
+            return
+        }
+        if attempts.contains(where: { $0.pegs == guess.pegs }) {
+            return
+        }
         var attempt = guess
         attempt.kind = .attempt(guess.match(against: masterCode))
         attempts.append(attempt)
