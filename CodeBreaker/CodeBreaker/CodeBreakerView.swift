@@ -7,8 +7,28 @@
 
 import SwiftUI
 
+
+
 struct CodeBreakerView: View {
-    @State var game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red,.purple,.blue])
+    @State var game = CodeBreaker()
+    
+    // Color mapping function
+    func colorForPeg(_ peg: String) -> Color {
+        switch peg {
+        case "red": return .red
+        case "blue": return .blue
+        case "green": return .green
+        case "yellow": return .yellow
+        case "clear": return .clear
+        default: return .white
+        }
+    }
+    
+    // Check if peg is a color string or emoji
+    func isColorPeg(_ peg: String) -> Bool {
+        return ["red", "blue", "green", "yellow", "clear"].contains(peg)
+    }
+    
     var body: some View {
         VStack {
             view(for: game.masterCode)
@@ -36,7 +56,7 @@ struct CodeBreakerView: View {
     var restartButton: some View {
         Button("Restart") {
             withAnimation {
-                game = CodeBreaker(pegChoices: [.brown, .yellow, .orange, .red,.purple,.blue])
+                game = CodeBreaker()
             }
         }
         .font(.system(size: 80))
@@ -46,19 +66,29 @@ struct CodeBreakerView: View {
     func view(for code: Code) -> some View {
         HStack {
             ForEach(code.pegs.indices, id: \.self) { index in
+                let peg = code.pegs[index]
+                let isColor = isColorPeg(peg)
+                
                 Circle()
                     .overlay {
-                        if code.pegs[index] == Code.missing {
+                        if peg == Code.missing {
                             Circle()
                                 .strokeBorder(Color.gray)
                         }
                     }
+                    .foregroundStyle(isColor ? colorForPeg(peg) : .white)
+                    .overlay {
+                        if !isColor {
+                            Text(peg)
+                                .font(.system(size: 120))
+                                .minimumScaleFactor(9/120)
+                        }
+                    }
                     .contentShape(Rectangle())
                     .aspectRatio(1, contentMode: .fit)
-                    .foregroundStyle(code.pegs[index])
                     .onTapGesture {
                         if code.kind == .guess {
-                            game.changeGuessPeg(at:index)
+                            game.changeGuessPeg(at: index)
                         }
                     }
             }
