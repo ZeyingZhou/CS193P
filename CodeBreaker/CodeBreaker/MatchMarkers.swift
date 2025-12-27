@@ -7,7 +7,10 @@
 import SwiftUI
 
 struct MatchMarkers: View {
-    var matches: [Match]
+    //MARK: Data In
+    let matches: [Match]
+    
+    //MARK: - Body
     var body: some View {
         HStack {
            VStack{
