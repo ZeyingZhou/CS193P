@@ -11,11 +11,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-            Text("greetings")
-            Text("howdy!")
-            Circle()
+        HStack {
+                Text("greeting").layoutPriority(100)
+                Spacer()
+                Image(systemName: "globe")
+                Text("howdy")
+                Circle()
+        }
+        Form {
+            
         }
     }
    
