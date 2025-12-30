@@ -18,37 +18,44 @@ struct KeyBoard: View {
     let onChoose: ((Char) -> Void)?
     // MARK: - Body
     var body: some View {
-        VStack {
-            HStack {
+        VStack(spacing: 8) {
+            HStack(spacing: 6) {
                 ForEach(Array(KeyBoard.firstRow), id: \.self) { character in
-                    Button {
-                        
-                    } label: {
-                        Text(String(character)).foregroundColor(.black).font(Font.system(size: 50)).aspectRatio(1, contentMode: .fit)
-                    }
+                    keyButton(for: character)
                 }
             }
-            HStack {
+            HStack(spacing: 6) {
                 ForEach(Array(KeyBoard.secondRow), id: \.self) { character in
-                    Button {
-                        
-                    } label: {
-                        Text(String(character)).foregroundColor(.black).font(Font.system(size: 50)).aspectRatio(1, contentMode: .fit)
-                    }
-                    
+                    keyButton(for: character)
                 }
             }
-            HStack {
+            HStack(spacing: 6) {
                 ForEach(Array(KeyBoard.thirdRow), id: \.self) {
                     character in
-                        Button {
-                            
-                        } label: {
-                            Text(String(character)).foregroundColor(.black).font(Font.system(size: 50)).aspectRatio(1, contentMode: .fit)
-                        }
+                    keyButton(for: character)
                 }
             }
         }
+    }
+    
+    private func keyButton(for character: Character) -> some View {
+        Button {
+            onChoose?(String(character))
+        } label: {
+            Text(String(character))
+                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .foregroundStyle(.primary)
+                .frame(width: 35, height: 50)  
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(.systemGray5))
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .strokeBorder(Color(.systemGray4), lineWidth: 1)
+                )
+        }
+        .buttonStyle(.plain)
     }
 }
 
