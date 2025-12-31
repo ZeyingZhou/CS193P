@@ -16,8 +16,10 @@ struct WordView: View {
             CharView(char: codeWord.chars[index])
                 .padding(Selection.border)
                 .background {
+                    if selection == index, codeWord.kind ==  .guess {
                         Selection.shape
                             .foregroundStyle(Selection.color)
+                    }
                 }
                 .overlay {
                     Selection.shape.foregroundStyle(codeWord.isHidden ? Color.gray: .clear)
@@ -32,7 +34,7 @@ struct WordView: View {
     struct Selection {
         static let border: CGFloat = 5
         static let cornerRadius: CGFloat = 10
-        static let color: Color = Color.gray
+        static let color: Color = Color.gray(0.85)
         static let shape = RoundedRectangle(cornerRadius: cornerRadius)
     }
 }
