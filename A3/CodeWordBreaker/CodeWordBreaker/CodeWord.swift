@@ -23,10 +23,9 @@ struct CodeWord {
         get {chars.joined()}
         set {chars = newValue.map {String($0)}}
     }
-    init(kind: Kind, word: String) {
+    init(kind: Kind, chars: [Char] = [], word: String) {
         self.kind = kind
-        self.chars = []
-        self.word = word
+        self.chars = chars.isEmpty ? word.map { String($0) } : chars
     }
     enum Kind: Equatable {
         case master(isHidden: Bool)
