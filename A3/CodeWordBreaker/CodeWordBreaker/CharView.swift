@@ -19,7 +19,7 @@ struct CharView: View {
             .overlay {
                 if char == CodeWord.missingChar {
                     Circle()
-                        .strokeBorder(Color.gray, lineWidth: 2)
+                        .strokeBorder(Color.gray)
                 }
             }
             .foregroundStyle(.white)

@@ -7,33 +7,40 @@
 
 import SwiftUI
 
-struct KeyBoard: View {
-    
-    
-    static let firstRow = "QWERTYUIOP"
-    static let secondRow = "ASDFGHJKL"
-    static let thirdRow = "ZXCVBNM"
+private let keyboardFirstRow = "QWERTYUIOP"
+private let keyboardSecondRow = "ASDFGHJKL"
+private let keyboardThirdRow = "ZXCVBNM"
+
+struct KeyBoard<RestartButton: View>: View {
     
     //MARK: Data Out Function
     let onChoose: ((Char) -> Void)?
+    @ViewBuilder let restartButton: RestartButton
+    
+    init(onChoose: ((Char) -> Void)?, @ViewBuilder restartButton: () -> RestartButton) {
+        self.onChoose = onChoose
+        self.restartButton = restartButton()
+    }
     // MARK: - Body
     var body: some View {
         VStack(spacing: 8) {
-            HStack(spacing: 6) {
-                ForEach(Array(KeyBoard.firstRow), id: \.self) { character in
+            HStack(spacing: 5) {
+                ForEach(Array(keyboardFirstRow), id: \.self) { character in
                     keyButton(for: character)
                 }
             }
-            HStack(spacing: 6) {
-                ForEach(Array(KeyBoard.secondRow), id: \.self) { character in
+            .padding(.horizontal)
+            HStack(spacing: 5) {
+                ForEach(Array(keyboardSecondRow), id: \.self) { character in
                     keyButton(for: character)
                 }
             }
-            HStack(spacing: 6) {
-                ForEach(Array(KeyBoard.thirdRow), id: \.self) {
+            HStack(spacing: 5) {
+                ForEach(Array(keyboardThirdRow), id: \.self) {
                     character in
                     keyButton(for: character)
                 }
+                restartButton
             }
         }
     }

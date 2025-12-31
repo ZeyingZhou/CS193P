@@ -25,7 +25,7 @@ struct CodeWord {
     }
     init(kind: Kind, word: String) {
         self.kind = kind
-        self.chars = ["","","",""]
+        self.chars = []
         self.word = word
     }
     enum Kind: Equatable {
