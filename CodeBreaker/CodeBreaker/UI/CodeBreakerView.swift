@@ -34,17 +34,18 @@ struct CodeBreakerView: View {
                     }
                 }
             }
-            PegChooser(choices: game.pegChoices) { peg in game.setGuessPeg(peg, at: selection)
-                selection = (selection + 1) % game.masterCode.pegs.count
-            }
-            //            pegs(colors: game.attempts[0].pegs)
+            PegChooser(choices: game.pegChoices, onChoose: changePegAtSelection)
         }
         .padding()
     }
     
+    func changePegAtSelection(to peg: Peg) {
+        game.setGuessPeg(peg, at: selection)
+        selection = (selection + 1) % game.masterCode.pegs.count
+    }
     var guessButton: some View {
         Button("Guess") {
-            withAnimation {
+            withAnimation(Animation.guess) {
                 game.attemptGuess()
                 selection = 0
             }
@@ -72,6 +73,10 @@ struct CodeBreakerView: View {
     }
     
 
+}
+
+extension Animation {
+    static let guess = Animation.easeInOut(duration: 3)
 }
 
 extension Color {
