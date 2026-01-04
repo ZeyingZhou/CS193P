@@ -17,7 +17,7 @@ struct CharView: View {
     var body: some View {
         charShape
             .overlay {
-                if char == CodeWord.missingChar {
+                if char == Char.missing {
                     Circle()
                         .strokeBorder(Color.gray)
                 }

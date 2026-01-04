@@ -40,10 +40,12 @@ struct CodeBreaker {
             pegChoices = ["😀","😨","🥳","😱","😆","😭","😈","😋"]
         }
         self.pegCount = Int.random(in: 3...6)
-        self.masterCode = Code(kind: .master(isHidden: true), pegs: Array(repeating: Code.missingPeg, count: pegCount))
-        self.guess = Code(kind: .guess, pegs: Array(repeating: Code.missingPeg, count: pegCount))
+        // Mutate existing masterCode instead of recreating
+        masterCode.kind = .master(isHidden: true)
+        masterCode.reset(to: pegCount)
         masterCode.randomize(from: pegChoices)
-        guess.reset()
+        // Mutate existing guess instead of recreating
+        guess.reset(to: pegCount)
         attempts.removeAll()
     }
     

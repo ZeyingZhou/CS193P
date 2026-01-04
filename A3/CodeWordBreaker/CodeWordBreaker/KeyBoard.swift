@@ -11,16 +11,17 @@ private let keyboardFirstRow = "QWERTYUIOP"
 private let keyboardSecondRow = "ASDFGHJKL"
 private let keyboardThirdRow = "ZXCVBNM"
 
-struct KeyBoard<RestartButton: View>: View {
+struct KeyBoard: View {
     
     //MARK: Data Out Function
     let onChoose: ((Char) -> Void)?
-    @ViewBuilder let restartButton: RestartButton
-    
-    init(onChoose: ((Char) -> Void)?, @ViewBuilder restartButton: () -> RestartButton) {
-        self.onChoose = onChoose
-        self.restartButton = restartButton()
-    }
+    let onBackspace: () -> Void
+    let onRestart: () -> Void
+    let onReturn: () -> Void    
+//    init(onChoose: ((Char) -> Void)?, @ViewBuilder restartButton: () -> RestartButton) {
+//        self.onChoose = onChoose
+//        self.restartButton = restartButton()
+//    }
     // MARK: - Body
     var body: some View {
         VStack(spacing: 8) {
@@ -40,8 +41,13 @@ struct KeyBoard<RestartButton: View>: View {
                     character in
                     keyButton(for: character)
                 }
-                restartButton
+                backspaceButton
             }
+            HStack {
+                restartButton
+                returnButton
+            }
+            
         }
     }
     
@@ -62,6 +68,57 @@ struct KeyBoard<RestartButton: View>: View {
                         .strokeBorder(Color(.systemGray4), lineWidth: 1)
                 )
         }
+        .buttonStyle(.plain)
+    }
+    
+    var restartButton: some View {
+        Button(action: onRestart) {
+                Text("Restart")
+                Image(systemName: "arrow.circlepath")
+        }
+        .font(.system(size: 24, weight: .semibold, design: .rounded))
+        .frame(width: 130, height: 40)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(.systemGray5))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(Color(.systemGray4), lineWidth: 1)
+        )
+    }
+    
+    var returnButton: some View {
+        Button(action: onReturn) {
+                Text("Return")
+                Image(systemName: "return")
+        }
+        .font(.system(size: 24, weight: .semibold, design: .rounded))
+        .frame(width: 130, height: 40)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(.systemGray5))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(Color(.systemGray4), lineWidth: 1)
+        )
+    }
+    
+    var backspaceButton: some View {
+        Button(action: onBackspace) {
+                Image(systemName: "delete.backward")
+        }
+        .font(.system(size: 24, weight: .semibold, design: .rounded))
+        .frame(width: 50, height: 40)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color(.systemGray5))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(Color(.systemGray4), lineWidth: 1)
+        )
         .buttonStyle(.plain)
     }
 }

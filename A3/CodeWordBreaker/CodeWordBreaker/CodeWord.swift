@@ -11,7 +11,6 @@ struct CodeWord {
     var kind: Kind
     var chars: [Char];
     
-    static let missingChar: Char = ""
     var isHidden: Bool {
         switch kind {
         case .master(let isHidden): return isHidden
@@ -35,7 +34,7 @@ struct CodeWord {
     }
     
     mutating func reset() {
-        self.chars = Array(repeating: CodeWord.missingChar, count: chars.count)
+        self.chars = Array(repeating: Char.missing, count: chars.count)
     }
     
     func match(against otherWord: CodeWord) -> [Match] {
@@ -62,6 +61,10 @@ struct CodeWord {
             }
         }
     }
+}
+
+extension Char {
+    static let missing = ""
 }
 
 

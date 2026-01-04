@@ -18,7 +18,13 @@ struct CodeWordBreaker {
         self.wordCount = Int.random(in: 3...6)
         self.charChoices = "QWERTYUIOPASDFGHJKLZXCVBNM".map { String($0)}
         self.guess = CodeWord(kind: .guess, word: "")
-        self.guess.chars = Array(repeating: CodeWord.missingChar, count: wordCount)
+        self.guess.chars = Array(repeating: Char.missing, count: wordCount)
+    }
+    
+    mutating func restart() -> Void {
+        self.wordCount = Int.random(in: 3...6)
+        self.guess = CodeWord(kind: .guess, word: "")
+        self.guess.chars = Array(repeating: Char.missing, count: wordCount)
     }
     
     mutating func attemptGuess() -> Void {

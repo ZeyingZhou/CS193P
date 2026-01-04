@@ -32,8 +32,7 @@ struct CodeView<AncillaryView>: View where AncillaryView: View {
     var body: some View {
         HStack {
             ForEach(code.pegs.indices, id: \.self) { index in
-                let peg = code.pegs[index]
-                PegView(peg: peg)
+                PegView(peg: code.pegs[index])
                     .padding(Selection.border)
                     .background { //selection background
                         Group {
@@ -45,12 +44,12 @@ struct CodeView<AncillaryView>: View where AncillaryView: View {
                         }.animation(.selection, value: selection)
                     }
                     .overlay { //hidden code obscuring
-                        Selection.shape.foregroundStyle(code.isHidden ? Color.gray: .clear).transaction {
-                            transaction in
-                            if code.isHidden {
-                                transaction.animation = nil
+                            Selection.shape.foregroundStyle(code.isHidden ? Color.gray: .clear).transaction {
+                                transaction in
+                                if code.isHidden {
+                                    transaction.animation = nil
+                                }
                             }
-                        }
                     }
                     .onTapGesture {
                         if code.kind == .guess {
