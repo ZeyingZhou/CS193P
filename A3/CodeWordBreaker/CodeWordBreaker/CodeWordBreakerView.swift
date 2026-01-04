@@ -22,12 +22,28 @@ struct CodeWordBreakerView: View {
                     index in view(for: game.attempts[index])
                 }
             }
-            KeyBoard { character in
-                game.setChar(char: character, at: selection)
-                selection = (selection + 1) % game.wordCount
-            } restartButton: {
-                restartButton
-            }
+            KeyBoard(
+                onChoose: {
+                    character in
+                    game.setChar(char: character, at: selection)
+                    selection = (selection + 1) % game.wordCount
+                }, onBackspace: {
+                    var indexToMove: Int
+                    if(game.guess.chars[selection] == .missing) {
+                        indexToMove = max(selection-1, .zero)
+                        game.guess.chars[indexToMove] = .missing
+                    }
+                    else {
+                        indexToMove = selection
+                        game.guess.chars[selection] = .missing
+                    }
+                    selection = indexToMove
+                }, onRestart: {
+                    game.restart()
+                }, onReturn: {
+                    game.attemptGuess()
+                    selection = 0
+                })
         }
         .padding()
         .onChange(of: words.count, initial: true) {
@@ -36,49 +52,14 @@ struct CodeWordBreakerView: View {
                     game.masterCode.word = "AWAIT"
                 } else {
                     game.masterCode.word = words.random(length: game.wordCount) ?? "ERROR"
+                    print(game.masterCode.word)
                 }
             }
         }
     }
     
-    var guessButton: some View {
-        Button("Guess") {
-            withAnimation {
-                game.attemptGuess()
-                selection = 0
-            }
-        }
-        .font(.system(size: 80))
-        .minimumScaleFactor(0.1)
-    }
     
-    var restartButton: some View {
-        Button(action:{
-            withAnimation {
-                game = CodeWordBreaker()
-                if words.count == 0 {
-                    game.masterCode.word = "AWAIT"
-                } else {
-                    game.masterCode.word = words.random(length: game.wordCount) ?? "ERROR"
-                }
-                selection = 0
-            }
-        }) {
-            Image(systemName: "arrow.clockwise")
-        }
-        .font(.system(size: 24, weight: .semibold, design: .rounded))
-        .foregroundStyle(.primary)
-        .frame(width: 35, height: 50)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color(.systemGray5))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color(.systemGray4), lineWidth: 1)
-        )
-        .buttonStyle(.plain)
-    }
+    
     
     func view(for word: CodeWord) -> some View {
         HStack {

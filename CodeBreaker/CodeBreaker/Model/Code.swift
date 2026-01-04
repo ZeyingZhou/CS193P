@@ -44,6 +44,10 @@ struct Code {
         pegs = Array(repeating: Code.missingPeg, count: pegs.count)
     }
     
+    mutating func reset(to count: Int) {
+        pegs = Array(repeating: Code.missingPeg, count: count)
+    }
+    
    
     
     var matches: [Match]? {
