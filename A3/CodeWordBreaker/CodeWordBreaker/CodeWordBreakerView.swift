@@ -15,11 +15,13 @@ struct CodeWordBreakerView: View {
     @State private var checker = UITextChecker()
     var body: some View {
         VStack {
-            view(for: game.masterCode)
+            WordView(codeWord: game.masterCode)
             ScrollView {
-                view(for: game.guess)
+                if !game.isOver {
+                    WordView(codeWord: game.guess, selection: $selection)
+                }
                 ForEach(game.attempts.indices.reversed(), id: \.self) {
-                    index in view(for: game.attempts[index])
+                    index in WordView(codeWord: game.attempts[index],selection: $selection,matches:game.attempts[index].matches)
                 }
             }
             KeyBoard(
@@ -40,6 +42,8 @@ struct CodeWordBreakerView: View {
                     selection = indexToMove
                 }, onRestart: {
                     game.restart()
+                    game.masterCode.word = words.random(length: game.wordCount) ?? "ERROR"
+                    print(game.masterCode.word)
                 }, onReturn: {
                     game.attemptGuess()
                     selection = 0
@@ -61,11 +65,11 @@ struct CodeWordBreakerView: View {
     
     
     
-    func view(for word: CodeWord) -> some View {
-        HStack {
-            WordView(codeWord: word,selection: $selection)
-        }
-    }
+//    func view(for word: CodeWord) -> some View {
+//        HStack {
+//            WordView(codeWord: word,selection: $selection)
+//        }
+//    }
 }
 
 extension Color {
