@@ -23,8 +23,14 @@ struct CodeWordBreaker {
     
     mutating func restart() -> Void {
         self.wordCount = Int.random(in: 3...6)
-        self.guess = CodeWord(kind: .guess, word: "")
-        self.guess.chars = Array(repeating: Char.missing, count: wordCount)
+        self.masterCode.kind = .master(isHidden: true)
+        self.masterCode.reset(to: wordCount)
+        self.guess.reset(to: wordCount)
+        attempts.removeAll()
+    }
+    
+    var isOver: Bool {
+        return attempts.last?.chars == masterCode.chars
     }
     
     mutating func attemptGuess() -> Void {
@@ -37,7 +43,10 @@ struct CodeWordBreaker {
         var attempt = guess
         attempt.kind = .attempt(guess.match(against: masterCode))
         attempts.append(attempt)
-        guess.reset()
+        guess.reset(to: wordCount)
+        if isOver {
+            masterCode.kind = .master(isHidden: false)
+        }
     }
     
     mutating func setChar(char: Char, at index: Int) {

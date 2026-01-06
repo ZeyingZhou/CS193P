@@ -33,8 +33,15 @@ struct CodeWord {
         case unknown
     }
     
-    mutating func reset() {
-        self.chars = Array(repeating: Char.missing, count: chars.count)
+    mutating func reset(to wordCount:Int) {
+        self.chars = Array(repeating: Char.missing, count: wordCount)
+    }
+    
+    var matches: [Match]? {
+        switch kind {
+        case .attempt(let matches): return matches
+        default: return nil
+        }
     }
     
     func match(against otherWord: CodeWord) -> [Match] {
