@@ -20,21 +20,22 @@ struct WordView: View {
         HStack {
             ForEach(codeWord.chars.indices, id: \.self) { index in
                 CharView(char: codeWord.chars[index])
-                    .overlay {
-                        Selection.shape.foregroundStyle(codeWord.isHidden ? Color.gray: .clear)
-                    }
                     .padding(Selection.border)
                     .background {
                         if let matches = matches {
                             switch matches[index] {
-                            case .exact: Color.green
-                            case .inexact: Color.yellow
-                            case .nomatch: Color.red
+                                case .exact: Color.green
+                                case .inexact: Color.yellow
+                                case .nomatch: Color.red
                             }
-                        } else if selection == index, codeWord.kind ==  .guess {
+                        }
+                        else if selection == index, codeWord.kind ==  .guess {
                             Selection.shape
                                 .foregroundStyle(Selection.color)
                         }
+                    }
+                    .overlay {
+                        Selection.shape.foregroundStyle(codeWord.isHidden ? Color.gray: .clear)
                     }
                     .onTapGesture {
                         if codeWord.kind == .guess {
@@ -45,22 +46,12 @@ struct WordView: View {
             }
         }
     }
-    
-//    func matchMarker(peg: Int) -> some View {
-//        if let match = matches {
-//            let exactCount: Int = match.count { $0 == .exact}
-//            let foundCount: Int = match.count { $0 != .nomatch}
-//            return Circle()
-//                .fill(exactCount > peg ? Color.primary : Color.clear)
-//                .strokeBorder(foundCount > peg ? Color.primary : Color.clear, lineWidth: 2).aspectRatio(1, contentMode: .fit)
-//        }
-//        return nil
-//    }
-    struct Selection {
-        static let border: CGFloat = 5
-        static let cornerRadius: CGFloat = 10
-        static let color: Color = Color.gray(0.85)
-        static let shape = RoundedRectangle(cornerRadius: cornerRadius)
-    }
+}
+
+fileprivate struct Selection {
+    static let border: CGFloat = 5
+    static let cornerRadius: CGFloat = 10
+    static let color: Color = Color.gray(0.85)
+    static let shape = RoundedRectangle(cornerRadius: cornerRadius)
 }
 

@@ -16,12 +16,6 @@ struct PegView: View {
     let pegShape = Circle()
     var body: some View {
         pegShape
-//            .overlay {
-//                if peg == Code.missingPeg {
-//                    Circle()
-//                        .strokeBorder(Color.gray)
-//                }
-//            }
             .foregroundStyle(Color(name: peg) ?? .white)
             .overlay {
                 if Color(name: peg) == nil {

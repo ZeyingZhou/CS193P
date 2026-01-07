@@ -16,13 +16,7 @@ struct CharView: View {
     let charShape = Circle()
     var body: some View {
         charShape
-            .overlay {
-                if char == Char.missing {
-                    Circle()
-                        .strokeBorder(Color.gray)
-                }
-            }
-            .foregroundStyle(.white)
+            .foregroundStyle(Color(.clear))
             .overlay {
                     Text(char)
                         .font(.system(size: 100))
