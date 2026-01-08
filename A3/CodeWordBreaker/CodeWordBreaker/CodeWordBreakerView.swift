@@ -61,22 +61,7 @@ struct CodeWordBreakerView: View {
             }
         }
     }
-    
-    
-    
-    
-//    func view(for word: CodeWord) -> some View {
-//        HStack {
-//            WordView(codeWord: word,selection: $selection)
-//        }
-//    }
 }
-
-extension Color {
-    static func gray(_ brightness: CGFloat) -> Color {
-        return Color(hue: 148/360, saturation: 0, brightness: brightness)
-    }
- }
 
 #Preview {
     CodeWordBreakerView()

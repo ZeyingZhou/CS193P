@@ -11,6 +11,8 @@ struct WordView: View {
     let codeWord: CodeWord
     @Binding var selection: Int
     var matches: [Match]?
+    //MARK: Data Owned by Me
+    @Namespace private var selectionNamespace
     init(codeWord: CodeWord, selection: Binding<Int> = Binding<Int>.constant(-1), matches: [Match]? = nil) {
         self.codeWord = codeWord
         self._selection = selection
@@ -29,10 +31,13 @@ struct WordView: View {
                                 case .nomatch: Color.red
                             }
                         }
-                        else if selection == index, codeWord.kind ==  .guess {
-                            Selection.shape
-                                .foregroundStyle(Selection.color)
-                        }
+                        Group {
+                            if selection == index, codeWord.kind ==  .guess {
+                                Selection.shape
+                                    .foregroundStyle(Selection.color)
+                                    .matchedGeometryEffect(id: "selection", in: selectionNamespace)
+                            }
+                        }.animation(.selection, value: selection)
                     }
                     .overlay {
                         Selection.shape.foregroundStyle(codeWord.isHidden ? Color.gray: .clear)
